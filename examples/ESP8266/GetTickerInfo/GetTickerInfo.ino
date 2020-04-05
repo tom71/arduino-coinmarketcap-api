@@ -26,7 +26,7 @@ CoinMarketCapApi api(client,COINMARKET_API_KEY);
 
 // CoinMarketCap's limit is "no more than 10 per minute"
 // Make sure to factor in if you are requesting more than one coin.
-unsigned long api_mtbs = 60000; //mean time between api requests
+unsigned long api_mtbs = 432000; //mean time between api requests
 unsigned long api_due_time = 0;
 
 void setup() {

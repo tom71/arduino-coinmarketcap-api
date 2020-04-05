@@ -1,7 +1,14 @@
 # arduino-coinmarketcap-api
-A wrapper around the [CoinMarketCap.com](http://coinmarketcap.com/) API for Arduino (supports ESP826 & ESP32).
+A wrapper around the [CoinMarketCap.com](https://pro-api.coinmarketcap.com/) API for Arduino (supports ESP826 & ESP32).
 
 The CoinMarketCap API can be used to look information on a wide range of crypto currency coins, included Bitcoin and Ethereum (check out the full list on their site).
+
+The free basic plan has 333 requests per day, so I call 200 request fix (432000 sec)
+
+## Requisites
+- Install the Espressif32 library https://github.com/espressif/arduino-esp32
+- Register on https://coinmarketcap.com/api/ and fetch an API-KEY
+- Replace the XXX inside the examples with your API Key
 
 ## Usage
 

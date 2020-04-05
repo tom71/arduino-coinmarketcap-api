@@ -22,18 +22,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 #include <Arduino.h>
 #include <ArduinoJson.h>
-#include <Client.h>
+#include <HTTPClient.h>
 
-#define COINMARKETCAP_HOST "api.coinmarketcap.com"
+#define COINMARKETCAP_HOST "https://pro-api.coinmarketcap.com"
 
 struct CMCTickerResponse{
   String id;
   String name;
   String symbol;
   int rank;
+  double price_eur;
   double price_usd;
   double price_btc;
   double volume_usd_24h;
+  double market_cap_eur;
+  double volume_eur_24h;
   double market_cap_usd;
   double available_supply;
   double total_supply;
@@ -54,13 +57,14 @@ struct CMCTickerResponse{
 class CoinMarketCapApi
 {
   public:
-    CoinMarketCapApi (Client &client);
+     CoinMarketCapApi (HTTPClient &client, String apiKey);
     String SendGetToCoinMarketCap(String command);
     CMCTickerResponse GetTickerInfo(String coinId, String currency = "");
     int Port = 443;
 
   private:
-    Client *client;
+    HTTPClient *client;
+    String COINMARKET_API_KEY;
     void closeClient();
 };
 

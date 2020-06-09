@@ -29,9 +29,12 @@ CMCTickerResponse CoinMarketCapApi::GetTickerInfo(String coinId, String currency
   String response = SendGetToCoinMarketCap(command);
   Serial.println(response);
   CMCTickerResponse responseObject = CMCTickerResponse();
-  DynamicJsonBuffer jsonBuffer;
-	JsonObject& root = jsonBuffer.parseObject(response);
-  if (root.success()) {
+  DynamicJsonDocument root(1024);
+  DeserializationError error = deserializeJson(root, response);
+
+  if(error){
+    responseObject.error = error.c_str();
+  }else{
     responseObject.id = root["data"][coinId]["id"].as<String>();
     responseObject.name = root["data"][coinId]["name"].as<String>();
     responseObject.symbol = root["data"][coinId]["symbol"].as<String>();
@@ -43,14 +46,6 @@ CMCTickerResponse CoinMarketCapApi::GetTickerInfo(String coinId, String currency
     responseObject.percent_change_7d =  root["data"][coinId]["quote"][currency]["percent_change_7d"].as<double>();
     responseObject.last_updated =  root["data"][coinId]["quote"][currency]["last_updated"].as<double>();
     responseObject.market_cap_eur = root["data"][coinId]["quote"][currency]["market_cap"].as<double>();
-
-  } else {
-    JsonObject& rootObject = jsonBuffer.parseObject(response);
-    if (rootObject.containsKey("error")) {
-       responseObject.error = rootObject["error"].as<String>();
-    } else {
-      responseObject.error = "Failed to parse JSON";
-    }
   }
 
   return responseObject;
